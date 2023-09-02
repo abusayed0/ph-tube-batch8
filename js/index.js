@@ -1,5 +1,5 @@
 console.log("js/index.js");
-let clickedCategoryId;
+let clickedCategoryData = [];
 const loadCategories = async () => {
     const url = `https://openapi.programming-hero.com/api/videos/categories`;
     try {
@@ -27,12 +27,12 @@ const displayCategories = categories => {
 
 const loadCategoryData = async id => {
 
-    clickedCategoryId = id;
     const url = `https://openapi.programming-hero.com/api/videos/category/${id}`;
     try {
         const res = await fetch(url);
         const data = await res.json();
         const categoryData = data.data;
+        clickedCategoryData = [...categoryData];
         displayCategoryData(categoryData);
     }
     catch (error) {
@@ -43,6 +43,7 @@ const displayCategoryData = data => {
     const categoryDataContainer = document.getElementById("category-data-container");
     categoryDataContainer.innerHTML = "";
     if (data.length) {
+        buttonDisabledToggle("sort-btn", false);
         const cardsContainer = document.createElement("div");
         cardsContainer.classList.add("mt-14", "grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-4", "gap-6");
         data.forEach(singleData => {
@@ -77,6 +78,7 @@ const displayCategoryData = data => {
         categoryDataContainer.appendChild(cardsContainer);
     }
     else{
+        buttonDisabledToggle("sort-btn", true)
         const notFoundContainer = document.createElement("div");
         notFoundContainer.classList.add("mt-24","max-w-[400px]", "mx-auto", "text-center", "flex", "flex-col", "items-center", "gap-6");
         notFoundContainer.innerHTML = `
@@ -89,6 +91,26 @@ const displayCategoryData = data => {
 }
 loadCategories();
 loadCategoryData(1000);
-const shortByViewHandle = () =>{
-    console.log(clickedCategoryId);
+const sortByViewHandle = () =>{
+    const clickedCategoryDataDecen = clickedCategoryData.sort((a, b) => {
+        const aViews = parseFloat(a.others.views);
+        const bViews = parseFloat(b.others.views);
+        return bViews - aViews;
+    });
+    displayCategoryData(clickedCategoryDataDecen);
+};
+
+function buttonDisabledToggle(btnClass, doDisable){
+    let btnS = document.getElementsByClassName(btnClass);
+    btnS = [...btnS]
+    if(doDisable){
+        btnS.forEach(btn => {
+            btn.setAttribute("disabled", true);
+        });
+    } 
+    else{
+        btnS.forEach(btn => {
+            btn.removeAttribute("disabled");
+        });
+    }
 }
