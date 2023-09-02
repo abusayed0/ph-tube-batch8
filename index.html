@@ -16,12 +16,38 @@
         body{
             font-family: 'Inter', sans-serif;
         }
+        .primary-bg{
+            background-color: rgba(37, 37, 37, 0.20);;
+        }
     </style>
 </head>
 
-<body>
-    <header>
-
+<body class="max-w-[1440px] px-2 md:px-10 lg:px-12 mx-auto">
+    <header class="mt-5">
+        <div class="navbar p-0 min-h-fit">
+            <div class="navbar-start gap-2">
+              <div class="dropdown md:hidden">
+                <label tabindex="0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 primary-bg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                </label>
+                <ul tabindex="0" class="flex flex-col gap-2 dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 rounded-box w-52">
+                  <li><button class="w-full text-start px-3 md:px-5 py-2 md:py-3 primary-bg rounded font-medium text-lg">Short By View</button></li>
+                 <li> <a class="w-full inline-block px-3 md:px-5 py-2 md:py-3 primary-bg rounded font-medium text-lg">Blog</a></li>
+                </ul>
+              </div>
+              <div>
+                <img class="h-[27px] md:h-[35px]" src="resources/Logo.png" alt="">
+              </div>
+            </div>
+            <div class="navbar-center hidden md:flex">
+              <ul>
+                <li><button class="px-5 py-3 primary-bg rounded font-medium text-lg">Short By View</button></li>
+              </ul>
+            </div>
+            <div class="hidden md:flex navbar-end">
+              <a href="" class="px-3 md:px-5 py-2 md:py-3 primary-bg rounded font-medium text-lg">Blog</a>
+            </div>
+          </div>
     </header>
     <main>
 
