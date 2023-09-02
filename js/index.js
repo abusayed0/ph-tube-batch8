@@ -1,5 +1,5 @@
 console.log("js/index.js");
-
+let clickedCategoryId;
 const loadCategories = async () => {
     const url = `https://openapi.programming-hero.com/api/videos/categories`;
     try {
@@ -26,6 +26,8 @@ const displayCategories = categories => {
 
 
 const loadCategoryData = async id => {
+
+    clickedCategoryId = id;
     const url = `https://openapi.programming-hero.com/api/videos/category/${id}`;
     try {
         const res = await fetch(url);
@@ -33,20 +35,20 @@ const loadCategoryData = async id => {
         const categoryData = data.data;
         displayCategoryData(categoryData);
     }
-    catch(error){
+    catch (error) {
         console.log(error);
     }
 };
 const displayCategoryData = data => {
     const categoryDataContainer = document.getElementById("category-data-container");
     categoryDataContainer.innerHTML = "";
-    const cardsContainer = document.createElement("div");
-    cardsContainer.classList.add("mt-10", "grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-4", "gap-6");
-    data.forEach(singleData => {
-        console.log(singleData);
-        const {thumbnail, title, authors, others} = singleData;
-        const newDiv = document.createElement("div");
-        newDiv.innerHTML = `
+    if (data.length) {
+        const cardsContainer = document.createElement("div");
+        cardsContainer.classList.add("mt-14", "grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-4", "gap-6");
+        data.forEach(singleData => {
+            const { thumbnail, title, authors, others } = singleData;
+            const newDiv = document.createElement("div");
+            newDiv.innerHTML = `
         <div class="border">
             <!-- card thumbnail -->
             <div>
@@ -70,9 +72,23 @@ const displayCategoryData = data => {
             </div>
       </div>
         `;
-        cardsContainer.appendChild(newDiv);
-    });
-    categoryDataContainer.appendChild(cardsContainer);
+            cardsContainer.appendChild(newDiv);
+        });
+        categoryDataContainer.appendChild(cardsContainer);
+    }
+    else{
+        const notFoundContainer = document.createElement("div");
+        notFoundContainer.classList.add("mt-24","max-w-[400px]", "mx-auto", "text-center", "flex", "flex-col", "items-center", "gap-6");
+        notFoundContainer.innerHTML = `
+            <img  src="../resources/Icon.png" alt="">
+            <h2 class="font-bold text-3xl">Oops!! Sorry, There is no content here</h2>
+        `;
+        categoryDataContainer.appendChild(notFoundContainer);
+    }
+
 }
 loadCategories();
 loadCategoryData(1000);
+const shortByViewHandle = () =>{
+    console.log(clickedCategoryId);
+}
